@@ -405,9 +405,12 @@ const isVirtualScroll = computed(() => props.virtualScroller && !props.grid)
 const gridColumnsCount = computed(() => props.gridColumns || 'var(--va-data-table-grid-tbody-columns)')
 
 const cellData = (cellData: any) => {
-  if (_.isDate(cellData)) {
-    if (props.dateFormatFn) { return props.dateFormatFn(cellData) } else { return cellData }
-  }
+  const dateRegex = /^(\d{4})(\/|-)(0[1-9]|1[0-2])(\/|-)(3[01]|[12][0-9]|0[1-9])$|^(0[1-9]|1[0-2])(\/|-)(3[01]|[12][0-9]|0[1-9])(\/|-)\d{4}$|^[A-Z][a-z]{2}\s[A-Z][a-z]{2}\s\d{2}\s\d{4}\s\d{2}:\d{2}:\d{2}\sGMT[+-]\d{4}\s\([A-Za-z\s]+\)$|(\d{4})-?(1[0-2]|0[1-9])-?(3[01]|0[1-9]|[12][0-9])T?(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$|(\d{4})-?(1[0-2]|0[1-9])-?(3[01]|0[1-9]|[12][0-9])$/
+
+  if (dateRegex.exec(cellData)) {
+    const utcDate = new Date(cellData)
+    if (props.dateFormatFn) { return props.dateFormatFn(new Date(utcDate.getTime() + utcDate.getTimezoneOffset() * 60000)) }
+  } else { return cellData }
 }
 </script>
 

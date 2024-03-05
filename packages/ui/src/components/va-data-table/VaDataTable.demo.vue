@@ -337,7 +337,7 @@
     </VbCard>
 
     <VbCard title="dateFormatFn" class="demo">
-      <va-data-table :items="itemsForDateFormatFn" footer-clone>
+      <va-data-table :items="itemsForDateFormatFn" :date-format-fn="formatDate" footer-clone>
       </va-data-table>
     </VbCard>
 
@@ -578,7 +578,7 @@ export default defineComponent({
         id: i,
         name: `Number ${i}`,
         idSquared: `The squared index is ${i ** 2}`,
-        date: new Date(),
+        date: '2023-01-01',
       }
     })
 
@@ -798,6 +798,14 @@ export default defineComponent({
 
     filter (source: any) {
       return source?.toString?.() === (this as any).filterValue
+    },
+    formatDate (date: Date) {
+      console.log(date)
+      return date.toLocaleDateString('en-Us', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric',
+      })
     },
   },
 })
