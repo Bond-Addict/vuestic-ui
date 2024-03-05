@@ -141,7 +141,7 @@
 
                     <slot v-else name="cell" v-bind="{ cell, row }">
                       <span v-if="$props.grid" class="va-data-table__grid-column-header">{{ columnsComputed[cellIndex].label }}</span>
-                      {{ cell.value }}
+                      {{ cellData(cell.value) }}
                     </slot>
                   </td>
                 </tr>
@@ -201,6 +201,7 @@
 <script lang="ts">
 import { PropType, computed, TableHTMLAttributes, StyleValue, useAttrs } from 'vue'
 import omit from 'lodash/omit.js'
+import _ from 'lodash'
 import pick from 'lodash/pick.js'
 
 import { useColumns, useColumnsProps } from './hooks/useColumns'
@@ -280,6 +281,7 @@ const props = defineProps({
   grid: { type: Boolean, default: false },
   gridColumns: { type: Number, default: 0 },
   wrapperSize: { type: [Number, String] as PropType<number | string | 'auto'>, default: 'auto' },
+  dateFormatFn: { type: Function },
 
   ariaSelectRowLabel: { type: String, default: '$t:selectRowByIndex' },
 })
@@ -401,6 +403,12 @@ const {
 const isVirtualScroll = computed(() => props.virtualScroller && !props.grid)
 
 const gridColumnsCount = computed(() => props.gridColumns || 'var(--va-data-table-grid-tbody-columns)')
+
+const cellData = (cellData: any) => {
+  if (_.isDate(cellData)) {
+    if (props.dateFormatFn) { return props.dateFormatFn(cellData) } else { return cellData }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -336,6 +336,11 @@
       </va-data-table>
     </VbCard>
 
+    <VbCard title="dateFormatFn" class="demo">
+      <va-data-table :items="itemsForDateFormatFn" footer-clone>
+      </va-data-table>
+    </VbCard>
+
     <VbCard title="Specific `cell(id)` slot (static value)" class="demo">
       <va-data-table :items="evenItems" :columns="evenColumns" footer-clone>
         <template #cell(id)>
@@ -568,6 +573,14 @@ export default defineComponent({
         idSquared: `The squared index is ${i ** 2}`,
       }
     })
+    const itemsForDateFormatFn: any[] = Array.from(Array(10), (u, i) => {
+      return {
+        id: i,
+        name: `Number ${i}`,
+        idSquared: `The squared index is ${i ** 2}`,
+        date: new Date(),
+      }
+    })
 
     const lackingItems = cloneDeep(evenItems)
     delete lackingItems[0].name
@@ -610,9 +623,17 @@ export default defineComponent({
         'idSquared',
       ],
 
+      dateFormatColumns: [
+        'idSquared',
+        'name',
+        'id',
+        'date',
+      ],
+
       evenItems,
       lackingItems,
       excessiveItems,
+      itemsForDateFormatFn,
 
       selectedItems: [],
       selectedItem: [],
