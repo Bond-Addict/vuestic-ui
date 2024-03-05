@@ -337,7 +337,11 @@
     </VbCard>
 
     <VbCard title="dateFormatFn" class="demo">
-      <va-data-table :items="itemsForDateFormatFn" :date-format-fn="formatDate" footer-clone>
+      With Date Format Function
+      <va-data-table :items="itemsForDateFormatFn" :date-format-fn="formatDate">
+      </va-data-table>
+      Without Date Format Function
+      <va-data-table :items="itemsForDateFormatFn">
       </va-data-table>
     </VbCard>
 
@@ -799,7 +803,6 @@ export default defineComponent({
       return source?.toString?.() === (this as any).filterValue
     },
     formatDate (date: Date) {
-      console.log(date)
       return date.toLocaleDateString('en-Us', {
         month: '2-digit',
         day: '2-digit',
