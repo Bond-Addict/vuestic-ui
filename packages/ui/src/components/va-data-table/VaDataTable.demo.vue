@@ -573,14 +573,16 @@ export default defineComponent({
         idSquared: `The squared index is ${i ** 2}`,
       }
     })
-    const itemsForDateFormatFn: any[] = Array.from(Array(10), (u, i) => {
+    const itemsForDateFormatFn: any[] = Array.from(Array(5), (u, i) => {
       return {
         id: i,
-        name: `Number ${i}`,
-        idSquared: `The squared index is ${i ** 2}`,
         date: '2023-01-01',
       }
     })
+    itemsForDateFormatFn[1].date = '2023/01/01'
+    itemsForDateFormatFn[2].date = new Date()
+    itemsForDateFormatFn[3].date = '01-01-2023'
+    itemsForDateFormatFn[4].date = '01/01/2023'
 
     const lackingItems = cloneDeep(evenItems)
     delete lackingItems[0].name
@@ -597,7 +599,6 @@ export default defineComponent({
     const manyItems = Array.from(Array(1000), (u, i) => {
       return {
         id: i,
-        name: `Number ${i}`,
         idSquared: `The squared index is ${i ** 2}`,
       }
     })
@@ -624,8 +625,6 @@ export default defineComponent({
       ],
 
       dateFormatColumns: [
-        'idSquared',
-        'name',
         'id',
         'date',
       ],
